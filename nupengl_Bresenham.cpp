@@ -37,16 +37,18 @@ public:
 
 void Bresenham(Line &line, const GLint &x1, const  GLint &x2){
 	glBegin(GL_POINTS);
-	GLfloat Pi = 0;
-	GLfloat P = 2*line.getDy()*x1 - 2*line.getDx()*line.getY(x1) 
-				+ 2*line.getDy() + line.getDx()*(2*line.getB()-1);
+	GLfloat Pi = 2 * line.getDy()*x1 - 2 * line.getDx()*line.getY(x1)
+		+ 2 * line.getDy() + line.getDx()*(2 * line.getB() - 1);;
+	GLfloat P = Pi;
 	GLfloat Yn = line.getY(x1);
 	for (GLfloat i = x1; i < x2; i = i + 0.01f){
-		if (P < 0){
-			Pi = P + 2 * line.getDy();
-		}else{
+		if (P > 0){
 			Yn = line.getY(i);
 			Pi = P + 2 * line.getDy() - 2 * line.getDx() * (line.getY(i+0.01f) - line.getY(i));		
+		}
+		else {
+			Pi = P + 2 * line.getDy();
+			Yn = line.getY(i-0.1f);
 		}
 		P = Pi;
 		glVertex2f(i, Yn);
